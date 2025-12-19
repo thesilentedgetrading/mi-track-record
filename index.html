@@ -3,359 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NQ Ultra Dashboard - NinjaTrader Journal</title>
+    <title>THE SILENT EDGE | Cloud Sync Ledger</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0b0f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-        .card { background-color: #161d2f; border: 1px solid #2d3748; border-radius: 12px; padding: 1.5rem; }
-        .fc-daygrid-day-number { color: #94a3b8 !important; font-size: 0.8rem; text-decoration: none !important; }
-        .pnl-pos { color: #10b981 !important; font-weight: bold; cursor: pointer; text-align: center; }
-        .pnl-neg { color: #ef4444 !important; font-weight: bold; cursor: pointer; text-align: center; }
-        input, select, textarea { background-color: #1f2937 !important; color: white !important; border: 1px solid #374151 !important; width: 100%; border-radius: 6px; padding: 10px; font-size: 0.9rem; }
-        input:focus, textarea:focus { border-color: #3b82f6 !important; outline: none; }
-        .fc-event { background: transparent !important; border: none !important; }
-        .fc-theme-standard td, .fc-theme-standard th { border: 1px solid #2d3748 !important; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        :root { --navy: #0f172a; --steel: #334155; --silver: #cbd5e1; --zen-green: #10b981; --zen-red: #f43f5e; }
+        body { background: radial-gradient(circle at top right, #1e293b, #020617); color: #f8fafc; font-family: 'Outfit', sans-serif; min-height: 100vh; margin: 0; }
+        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        .metric-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6)); border-radius: 20px; padding: 1.2rem; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .fc-theme-standard td, .fc-theme-standard th { border: 1px solid rgba(255,255,255,0.03) !important; }
+        .fc-daygrid-day-number { font-size: 0.7rem; color: #64748b !important; padding: 8px !important; text-decoration: none !important; }
+        .pnl-pos { color: var(--zen-green) !important; font-family: 'JetBrains Mono'; font-weight: 600; font-size: 0.75rem; text-align: center; }
+        .pnl-neg { color: var(--zen-red) !important; font-family: 'JetBrains Mono'; font-weight: 600; font-size: 0.75rem; text-align: center; }
+        .weekly-sum { font-size: 0.65rem; color: #94a3b8; border-left: 1px solid #334155; padding-left: 5px; margin-top: 5px; font-weight: bold; }
+        .modal-container { position: fixed; inset: 0; z-index: 100; display: flex; justify-content: center; align-items: flex-start; padding: 2rem; overflow-y: auto; background: rgba(2, 6, 23, 0.98); }
+        .modal-content { width: 100%; max-width: 1100px; margin-top: auto; margin-bottom: auto; }
+        input, select, textarea { background: #0f172a !important; color: white !important; border: 1px solid #334155 !important; border-radius: 10px; padding: 10px; width: 100%; font-size: 0.85rem; }
+        .btn-zen { background: #f8fafc; color: #0f172a; font-weight: 600; transition: all 0.3s ease; cursor: pointer; border: none; border-radius: 99px; }
+        .btn-zen:hover { opacity: 0.8; transform: translateY(-1px); }
+        .btn-cloud { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+        .btn-cloud:hover { background: #334155; color: white; }
+        .status-badge { font-size: 8px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+        .hidden { display: none !important; }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-[1500px] mx-auto">
-        <header class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-6 border-b border-gray-800 pb-6">
-            <div>
-                <h1 class="text-3xl font-bold text-white tracking-tight">NQ Future <span class="text-blue-500">Track</span></h1>
-                <p class="text-gray-400 text-sm">Registro Profesional de Futuros & Disciplina Operativa</p>
+    <div class="max-w-[1700px] mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div class="flex items-center gap-5">
+                <div class="w-14 h-14 glass flex items-center justify-center border-slate-700 shadow-2xl tracking-tighter italic font-extralight text-xl">SE</div>
+                <div>
+                    <h1 class="text-3xl font-extralight tracking-[0.5em] text-white uppercase italic">The Silent Edge <span class="font-bold text-slate-400 not-italic">Trading</span></h1>
+                    <p class="text-slate-500 text-[9px] uppercase tracking-[0.3em] font-bold">Cloud-Linked Business Protocol • USD-MXN @ 18.15</p>
+                </div>
             </div>
-            <div class="flex flex-wrap justify-center gap-3">
-                <button onclick="exportarDatos()" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2">💾 Exportar JSON</button>
-                <label class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer transition flex items-center gap-2">
-                    📂 Importar Backups <input type="file" id="importar" class="hidden" onchange="importarDatos(event)">
-                </label>
-                <button onclick="abrirModal('modalTrade')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold shadow-lg shadow-blue-900/20 transition">+ Nuevo Trade</button>
+            <div class="flex gap-3">
+                <button onclick="sincronizarGoogle()" class="btn-cloud px-6 py-2 rounded-full text-[10px] uppercase font-bold transition">Sync to Cloud ☁️</button>
+                <button onclick="exportarDatos()" class="px-6 py-2 rounded-full border border-slate-700 text-[10px] uppercase font-bold text-slate-400">Backup JSON</button>
+                <button onclick="abrirModalRegistro()" class="btn-zen px-10 py-3 text-[10px] uppercase tracking-widest shadow-xl">Log Session</button>
             </div>
         </header>
 
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-            <div class="card border-l-4 border-l-blue-500"><p class="text-gray-500 text-[10px] uppercase font-bold mb-1">Net P&L Total</p><p id="netPL" class="text-2xl font-mono font-bold">$0</p></div>
-            <div class="card border-l-4 border-l-purple-500"><p class="text-gray-500 text-[10px] uppercase font-bold mb-1">Win Rate</p><p id="winRate" class="text-2xl font-mono font-bold">0%</p></div>
-            <div class="card border-l-4 border-l-yellow-500"><p class="text-gray-500 text-[10px] uppercase font-bold mb-1">Profit Factor</p><p id="profitFactor" class="text-2xl font-mono font-bold">0.00</p></div>
-            <div class="card border-l-4 border-l-green-500"><p class="text-gray-500 text-[10px] uppercase font-bold mb-1">Avg Trade</p><p id="avgTrade" class="text-2xl font-mono font-bold">$0</p></div>
-            <div class="card border-l-4 border-l-indigo-500"><p class="text-gray-500 text-[10px] uppercase font-bold mb-1">Total Puntos NQ</p><p id="totalPts" class="text-2xl font-mono font-bold">0.00</p></div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-10 text-center text-white">
+            <div class="metric-card"><p class="text-slate-500 text-[9px] uppercase font-bold tracking-widest mb-1">Disciplina (7d)</p><h2 id="kpiDisc" class="text-xl font-light">0.0 ⭐</h2></div>
+            <div class="metric-card border-emerald-500/10"><p class="text-emerald-500/60 text-[9px] uppercase font-bold tracking-widest mb-1">Retiros Reales</p><h2 id="kpiRetiros" class="text-xl font-mono text-emerald-400">$0 MXN</h2></div>
+            <div class="metric-card border-rose-500/10"><p class="text-rose-500/60 text-[9px] uppercase font-bold tracking-widest mb-1">Inversión Total</p><h2 id="kpiInv" class="text-xl font-mono text-rose-400">$0 MXN</h2></div>
+            <div class="metric-card"><p class="text-slate-500 text-[9px] uppercase font-bold tracking-widest mb-1">Win Rate</p><h2 id="kpiWR" class="text-xl font-mono">0%</h2></div>
+            <div class="metric-card"><p class="text-slate-500 text-[9px] uppercase font-bold tracking-widest mb-1">P&L Bruto</p><h2 id="kpiBruto" class="text-xl font-mono">$0.00</h2></div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 card shadow-xl">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-gray-300">Calendario de Sesiones</h3>
-                    <span class="text-[10px] text-gray-500 italic">Haz clic en un día para ver el detalle</span>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+            <div class="lg:col-span-3 glass p-6 shadow-2xl relative">
+                <div class="flex justify-between items-center mb-6 px-4 border-b border-slate-800 pb-4">
+                    <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest italic text-sm">Global Session Ledger</h3>
+                    <div id="pnlMensualHeader" class="text-sm font-mono text-white font-bold tracking-tighter italic">MONTHLY: $0.00 USD</div>
                 </div>
                 <div id="calendar"></div>
             </div>
-
+            
             <div class="space-y-6">
-                <div class="card">
-                    <h3 class="font-bold mb-4 text-gray-300">Equity Curve</h3>
-                    <canvas id="equityChart"></canvas>
+                <div class="metric-card border-slate-700 bg-slate-900/40">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Business Analysis</h3>
+                        <button onclick="abrirModalFondeo()" class="text-xs text-white bg-slate-700 px-3 py-1 rounded-full font-bold">+</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mb-6 text-center border-b border-slate-800 pb-4 text-xs">
+                        <div><p class="text-[7px] text-slate-500 uppercase italic">Aprobación</p><p id="bizAppRate" class="font-bold">0%</p></div>
+                        <div><p class="text-[7px] text-slate-500 uppercase italic">Cobro</p><p id="bizPayoutRate" class="font-bold">0%</p></div>
+                        <div><p class="text-[7px] text-slate-500 uppercase italic">ROI</p><p id="bizROI" class="font-bold text-emerald-400">0%</p></div>
+                    </div>
+                    <div id="analyticsCuentas" class="space-y-3"></div>
                 </div>
-                <div class="card bg-gradient-to-br from-[#161d2f] to-[#1e293b]">
-                    <h3 class="font-bold mb-2 text-gray-300">Resumen de Cuentas</h3>
-                    <div id="listaCuentas" class="space-y-3 text-sm mt-4">
-                        </div>
-                    <button onclick="abrirModal('modalFondeo')" class="w-full mt-6 py-2 border border-dashed border-gray-600 text-gray-400 rounded-lg hover:border-blue-500 hover:text-blue-400 transition text-xs font-bold">+ AGREGAR CUENTA DE FONDEO</button>
-                </div>
+                <div class="metric-card"><canvas id="equityChart"></canvas></div>
             </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
+            <div class="glass p-8"><canvas id="monthlyChart"></canvas></div>
+            <div class="glass p-8"><canvas id="ddChart"></canvas></div>
         </div>
     </div>
 
-    <div id="modalTrade" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex justify-center items-center p-4 z-50">
-        <div class="card w-full max-w-4xl max-h-[95vh] overflow-y-auto border-blue-500/30 shadow-2xl">
-            <h2 class="text-2xl font-bold mb-6 text-blue-400 font-mono tracking-tighter uppercase">Bitácora de Sesión - NQ</h2>
-            <div class="grid lg:grid-cols-2 gap-8">
+    <div id="modalTrade" class="hidden modal-container">
+        <div class="glass modal-content p-10 my-10 border-slate-700">
+            <h2 id="modalTitle" class="text-xl font-extralight tracking-[0.3em] uppercase mb-10">Silent Execution</h2>
+            <input type="hidden" id="editId">
+            <div class="grid md:grid-cols-2 gap-10">
                 <div class="space-y-5">
+                    <select id="tCuentaSelect"></select>
                     <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-[10px] text-gray-400 uppercase font-bold">Fecha de Operación</label><input type="date" id="tFecha" class="mt-1"></div>
-                        <div><label class="text-[10px] text-gray-400 uppercase font-bold">Puntos Netos</label><input type="number" step="0.25" id="tPuntos" placeholder="0.00" class="mt-1"></div>
+                        <input type="date" id="tFecha">
+                        <input type="number" id="tGanancia" step="0.01" placeholder="P&L USD">
                     </div>
-                    <div><label class="text-[10px] text-gray-400 uppercase font-bold text-green-400">Resultado Final ($)</label><input type="number" id="tGanancia" placeholder="Ej: 500 o -200" class="mt-1 border-green-900"></div>
-                    
-                    <div>
-                        <label class="text-[10px] text-blue-400 uppercase font-bold mb-2 block tracking-widest">Checklist de Estrategia</label>
-                        <div class="grid grid-cols-2 gap-2 bg-gray-900/50 p-4 rounded-xl border border-gray-800">
-                            <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="tCheck w-4 h-4" value="Contexto HTF"> Contexto HTF</label>
-                            <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="tCheck w-4 h-4" value="Zona de Valor"> Zona de Valor</label>
-                            <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="tCheck w-4 h-4" value="Gatillo/Entry"> Gatillo / Entry</label>
-                            <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="tCheck w-4 h-4" value="Stop Técnico"> Stop Técnico</label>
-                            <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="tCheck w-4 h-4" value="Riesgo 1:2+"> Riesgo 1:2+</label>
-                            <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" class="tCheck w-4 h-4" value="Disciplina"> Disciplina 100%</label>
-                        </div>
-                    </div>
-                    <div><label class="text-[10px] text-gray-400 uppercase font-bold">Notas y Psicología</label><textarea id="tNotas" rows="3" placeholder="¿Cómo te sentiste hoy?" class="mt-1"></textarea></div>
-                </div>
-
-                <div class="flex flex-col h-full">
-                    <label class="text-[10px] text-gray-400 uppercase font-bold mb-1">Captura de NinjaTrader</label>
-                    <div class="flex-grow border-2 border-dashed border-gray-700 rounded-xl flex flex-col items-center justify-center p-6 bg-gray-900/30 hover:border-blue-500 transition cursor-pointer relative overflow-hidden" id="dropZone">
-                        <img id="preview" class="hidden absolute inset-0 w-full h-full object-contain z-10">
-                        <div class="text-center z-0">
-                            <p class="text-blue-500 font-bold mb-1">Pega tu gráfica aquí</p>
-                            <p class="text-[10px] text-gray-500 uppercase">Cmd+V o haz clic para subir</p>
-                        </div>
-                        <input type="file" id="tImagen" class="hidden" accept="image/*">
+                    <input type="number" id="tComision" step="0.01" placeholder="Comissions USD">
+                    <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 space-y-3">
+                        <p class="text-[9px] uppercase text-slate-500 font-bold italic">Checklist</p>
+                        <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="C"> Contexto Válido</label>
+                        <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="G"> Confluencia GM</label>
+                        <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="T"> Timing Correcto</label>
+                        <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="I"> Entrada Técnica</label>
+                        <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="O"> Salida Técnica</label>
                     </div>
                 </div>
+                <div class="space-y-4">
+                    <div class="w-full h-64 border-2 border-dashed border-slate-700 rounded-3xl flex items-center justify-center bg-slate-900/30 relative overflow-hidden" id="dropZone">
+                        <img id="preview" class="hidden absolute inset-0 w-full h-full object-contain p-2">
+                        <p class="text-slate-500 text-xs font-bold uppercase">Paste Image (Cmd+V)</p>
+                        <input type="file" id="tImagen" class="hidden">
+                    </div>
+                    <textarea id="tNotas" rows="4" placeholder="Zen Journaling..."></textarea>
+                </div>
             </div>
-            <div class="flex gap-3 mt-8">
-                <button onclick="guardarTrade()" class="flex-1 bg-blue-600 hover:bg-blue-500 p-4 rounded-xl font-bold shadow-lg shadow-blue-900/40 transition">GUARDAR SESIÓN</button>
-                <button onclick="cerrarModal('modalTrade')" class="w-32 bg-gray-800 p-4 rounded-xl font-bold transition">CANCELAR</button>
-            </div>
+            <div class="flex gap-4 mt-10"><button onclick="guardarTrade()" class="btn-zen flex-1 py-4 uppercase text-[10px]">Commit Data</button><button onclick="cerrarModal('modalTrade')" class="px-10 border border-slate-700 text-slate-500 rounded-full uppercase text-[10px]">Discard</button></div>
         </div>
     </div>
 
-    <div id="modalReview" class="hidden fixed inset-0 bg-black/98 flex justify-center items-center p-4 z-50">
-        <div class="card w-full max-w-6xl max-h-[90vh] overflow-y-auto border-gray-700 shadow-2xl">
-            <div class="flex justify-between items-center mb-6 sticky top-0 bg-[#161d2f] z-20 pb-4">
-                <div>
-                    <h2 id="revFecha" class="text-3xl font-black text-white">Sesión NQ</h2>
-                </div>
-                <button onclick="cerrarModal('modalReview')" class="text-gray-500 hover:text-white text-4xl">&times;</button>
-            </div>
-            <div id="revContenido" class="grid lg:grid-cols-3 gap-8">
-                </div>
-        </div>
-    </div>
-
-    <div id="modalFondeo" class="hidden fixed inset-0 bg-black/90 flex justify-center items-center p-4 z-50">
-        <div class="card w-full max-w-sm">
-            <h2 class="text-xl font-bold mb-4">Nueva Prueba de Fondeo</h2>
+    <div id="modalFondeo" class="hidden modal-container">
+        <div class="metric-card w-full max-w-md bg-slate-900 border-slate-700 p-8 shadow-2xl my-auto">
+            <h2 id="assetModalTitle" class="text-sm font-bold uppercase tracking-widest mb-6">Asset Management</h2>
+            <input type="hidden" id="editAssetId">
             <div class="space-y-4">
-                <input type="text" id="fEmpresa" placeholder="Ej: Topstep / Apex">
-                <input type="text" id="fTamano" placeholder="Ej: 50k / 150k">
-                <input type="number" id="fCosto" placeholder="Costo de la prueba ($)">
-                <div class="flex gap-2 pt-2">
-                    <button onclick="guardarFondeo()" class="flex-1 bg-green-600 p-2 rounded font-bold">Añadir</button>
-                    <button onclick="cerrarModal('modalFondeo')" class="flex-1 bg-gray-700 p-2 rounded">Cancelar</button>
-                </div>
+                <input type="text" id="fEmpresa" placeholder="Company">
+                <div class="grid grid-cols-2 gap-4"><input type="number" id="fCosto" placeholder="Cost MXN"><input type="number" id="fDrawdown" placeholder="DD USD"></div>
+                <input type="number" id="fStop" placeholder="Avg SL USD">
+                <select id="fStatus"><option value="evaluacion">Evaluación</option><option value="aprobada">Aprobada</option><option value="quemada">Quemada</option><option value="retiro">Con Retiro</option></select>
+                <input type="number" id="fRetiro" placeholder="Payout MXN">
+                <div class="flex gap-3 pt-4"><button onclick="guardarFondeo()" class="flex-1 btn-zen py-3 text-[10px] uppercase">Save</button><button onclick="eliminarFondeo()" id="btnEliminarAsset" class="flex-1 border border-rose-900 text-rose-500 rounded-full text-[10px] hidden">Delete</button><button onclick="cerrarModal('modalFondeo')" class="flex-1 border border-slate-700 rounded-full py-3 text-slate-500 uppercase text-[10px]">Cancel</button></div>
             </div>
+        </div>
+    </div>
+
+    <div id="modalReview" class="hidden modal-container">
+        <div class="glass modal-content p-10 my-10 border-slate-700 shadow-2xl">
+            <div id="revContenido" class="flex flex-col gap-20"></div>
+            <button onclick="cerrarModal('modalReview')" class="mt-20 w-full py-5 bg-slate-800 rounded-3xl text-[10px] font-bold tracking-widest uppercase text-slate-400 hover:text-white transition">Return to Ledger</button>
         </div>
     </div>
 
     <script>
-        let trades = JSON.parse(localStorage.getItem('nq_pro_final')) || [];
-        let fondeo = JSON.parse(localStorage.getItem('nq_fondeo_final')) || [];
-        let imagenBase64 = "";
+        const TC = 18.15;
+        // REEMPLAZA ESTO CON LA URL DE TU GOOGLE APPS SCRIPT
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_gKWIG2ovJDxXCP5s4oBnca8JThVCXCYdQfOufpSJgi_w_Ha8zEkg4vTc-jqxB3jf/exec';
 
-        // MANEJO DE IMÁGENES
-        const dz = document.getElementById('dropZone');
-        dz.onclick = () => document.getElementById('tImagen').click();
-        document.getElementById('tImagen').onchange = (e) => leerImagen(e.target.files[0]);
-        document.onpaste = (e) => {
-            const item = (e.clipboardData || e.originalEvent.clipboardData).items[0];
-            if (item && item.type.indexOf("image") !== -1) leerImagen(item.getAsFile());
-        };
+        let trades = JSON.parse(localStorage.getItem('se_f_tr_final')) || [];
+        let assets = JSON.parse(localStorage.getItem('se_f_as_final')) || [];
+        let img64 = "";
 
-        function leerImagen(file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagenBase64 = e.target.result;
-                const prev = document.getElementById('preview');
-                prev.src = imagenBase64;
-                prev.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
+        // LÓGICA DE SINCRONIZACIÓN GOOGLE
+        async function sincronizarGoogle() {
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'TU_URL_DE_GOOGLE_AQUI') {
+                return alert("Por favor, configura primero la URL de tu Google Apps Script en el código.");
+            }
+            
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "Sincronizando...";
+            btn.disabled = true;
 
-        // MODALES
-        function abrirModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function cerrarModal(id) { 
-            document.getElementById(id).classList.add('hidden'); 
-            if(id === 'modalTrade') {
-                imagenBase64 = "";
-                document.getElementById('preview').classList.add('hidden');
-                document.querySelectorAll('.tCheck').forEach(c => c.checked = false);
-                document.getElementById('tNotas').value = "";
-                document.getElementById('tPuntos').value = "";
-                document.getElementById('tGanancia').value = "";
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Necesario para evitar bloqueos CORS en local
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ trades, assets })
+                });
+                alert("¡Datos enviados a tu Google Sheet!");
+            } catch (error) {
+                console.error(error);
+                alert("Error al conectar con Google. Revisa la consola.");
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
             }
         }
 
-        // GUARDAR DATOS
-        function guardarTrade() {
-            const checks = Array.from(document.querySelectorAll('.tCheck:checked')).map(c => c.value);
-            const t = {
-                id: Date.now(),
-                fecha: document.getElementById('tFecha').value,
-                puntos: parseFloat(document.getElementById('tPuntos').value) || 0,
-                ganancia: parseFloat(document.getElementById('tGanancia').value) || 0,
-                notas: document.getElementById('tNotas').value,
-                checks: checks,
-                imagen: imagenBase64
-            };
-            if(!t.fecha) return alert("Por favor selecciona una fecha");
-            trades.push(t);
-            actualizarTodo();
-            cerrarModal('modalTrade');
+        // --- EL RESTO DE LA LÓGICA (Misma arquitectura Zen que configuramos) ---
+        const dz = document.getElementById('dropZone');
+        dz.onclick = () => document.getElementById('tImagen').click();
+        document.getElementById('tImagen').onchange = (e) => rImg(e.target.files[0]);
+        document.onpaste = (e) => { const i = (e.clipboardData || e.originalEvent.clipboardData).items[0]; if (i?.type.includes("image")) rImg(i.getAsFile()); };
+        function rImg(f) { const r = new FileReader(); r.onload = (e) => { img64 = e.target.result; document.getElementById('preview').src = img64; document.getElementById('preview').classList.remove('hidden'); }; r.readAsDataURL(f); }
+
+        function abrirModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).scrollTo(0,0); }
+        function cerrarModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function abrirModalFondeo(id = null) {
+            const btnEl = document.getElementById('btnEliminarAsset');
+            if(id) {
+                const a = assets.find(x => x.id == id);
+                document.getElementById('editAssetId').value = id;
+                document.getElementById('fEmpresa').value = a.empresa;
+                document.getElementById('fCosto').value = a.costo;
+                document.getElementById('fDrawdown').value = a.drawdown;
+                document.getElementById('fStop').value = a.stop;
+                document.getElementById('fStatus').value = a.status;
+                document.getElementById('fRetiro').value = a.retiro;
+                btnEl.classList.remove('hidden');
+            } else {
+                document.getElementById('editAssetId').value = ""; document.getElementById('fEmpresa').value = ""; 
+                document.getElementById('fCosto').value = ""; document.getElementById('fDrawdown').value = "";
+                document.getElementById('fStop').value = ""; document.getElementById('fStatus').value = "evaluacion";
+                document.getElementById('fRetiro').value = 0;
+                btnEl.classList.add('hidden');
+            }
+            abrirModal('modalFondeo');
         }
 
         function guardarFondeo() {
-            fondeo.push({
-                id: Date.now(),
-                empresa: document.getElementById('fEmpresa').value,
-                tamano: document.getElementById('fTamano').value,
-                costo: parseFloat(document.getElementById('fCosto').value) || 0
-            });
-            actualizarTodo();
-            cerrarModal('modalFondeo');
+            const aid = document.getElementById('editAssetId').value;
+            const emp = document.getElementById('fEmpresa').value;
+            const seq = aid ? assets.find(x => x.id == aid).sec : assets.filter(a => a.empresa.toLowerCase() === emp.toLowerCase()).length + 1;
+            const data = { id: aid || Date.now().toString(), empresa: emp, sec: seq, costo: parseFloat(document.getElementById('fCosto').value)||0, drawdown: parseFloat(document.getElementById('fDrawdown').value)||1, stop: parseFloat(document.getElementById('fStop').value)||1, status: document.getElementById('fStatus').value, retiro: parseFloat(document.getElementById('fRetiro').value)||0 };
+            if(aid) assets = assets.map(x => x.id == aid ? data : x); else assets.push(data);
+            actualizar(); cerrarModal('modalFondeo');
         }
 
-        // RENDERIZADO
-        function actualizarTodo() {
-            localStorage.setItem('nq_pro_final', JSON.stringify(trades));
-            localStorage.setItem('nq_fondeo_final', JSON.stringify(fondeo));
-            renderStats();
-            renderCalendar();
-            renderFondeo();
+        function eliminarFondeo() {
+            const aid = document.getElementById('editAssetId').value;
+            if(confirm("¿Eliminar esta cuenta y sus trades asociados?")) {
+                trades = trades.filter(t => t.cid != aid);
+                assets = assets.filter(a => a.id != aid);
+                actualizar(); cerrarModal('modalFondeo');
+            }
+        }
+
+        function abrirModalRegistro(id = null) {
+            if(!assets.length) return alert("Add an asset first");
+            document.getElementById('editId').value = id || "";
+            document.getElementById('tCuentaSelect').innerHTML = assets.map(a => `<option value="${a.id}">${a.empresa} #${a.sec}</option>`).join('');
+            if(id) {
+                const t = trades.find(x => x.id == id);
+                document.getElementById('tFecha').value = t.fecha; document.getElementById('tGanancia').value = t.gb;
+                document.getElementById('tComision').value = t.com; document.getElementById('tNotas').value = t.notas;
+                document.getElementById('tCuentaSelect').value = t.cid; img64 = t.img;
+                if(t.img) { document.getElementById('preview').src = t.img; document.getElementById('preview').classList.remove('hidden'); }
+            } else {
+                document.getElementById('tGanancia').value = ""; document.getElementById('tComision').value = "";
+                document.getElementById('tNotas').value = ""; document.getElementById('preview').classList.add('hidden');
+                img64 = ""; document.querySelectorAll('.tCheck').forEach(c => c.checked = false);
+            }
+            abrirModal('modalTrade');
+        }
+
+        function guardarTrade() {
+            const eid = document.getElementById('editId').value;
+            const sc = Array.from(document.querySelectorAll('.tCheck:checked')).length;
+            const gb = parseFloat(document.getElementById('tGanancia').value)||0;
+            const cm = parseFloat(document.getElementById('tComision').value)||0;
+            const t = { id: eid ? parseInt(eid) : Date.now(), cid: document.getElementById('tCuentaSelect').value, fecha: document.getElementById('tFecha').value, gb, com: cm, gn: gb - cm, sc, notas: document.getElementById('tNotas').value, img: img64 };
+            if(!t.fecha) return; if(eid) trades = trades.map(x => x.id == eid ? t : x); else trades.push(t);
+            actualizar(); cerrarModal('modalTrade');
+        }
+
+        function actualizar() {
+            localStorage.setItem('se_f_tr_final', JSON.stringify(trades));
+            localStorage.setItem('se_f_as_final', JSON.stringify(assets));
+            renderStats(); renderCalendar(); renderCharts(); renderBusiness();
         }
 
         function renderStats() {
-            const net = trades.reduce((a, b) => a + b.ganancia, 0);
-            const wins = trades.filter(t => t.ganancia > 0);
-            const loss = trades.filter(t => t.ganancia < 0);
-            const wr = trades.length ? (wins.length / trades.length * 100).toFixed(1) : 0;
-            
-            const grossProfit = wins.reduce((a,b) => a+b.ganancia,0);
-            const grossLoss = Math.abs(loss.reduce((a,b) => a+b.ganancia,0));
-            const pf = grossLoss > 0 ? (grossProfit / grossLoss).toFixed(2) : (grossProfit > 0 ? "MAX" : "0.00");
-
-            document.getElementById('netPL').innerText = `$${net.toLocaleString()}`;
-            document.getElementById('netPL').className = net >= 0 ? 'text-2xl font-mono font-bold text-green-400' : 'text-2xl font-mono font-bold text-red-400';
-            document.getElementById('winRate').innerText = `${wr}%`;
-            document.getElementById('profitFactor').innerText = pf;
-            document.getElementById('avgTrade').innerText = `$${trades.length ? (net/trades.length).toFixed(0) : 0}`;
-            document.getElementById('totalPts').innerText = trades.reduce((a,b)=>a+b.puntos,0).toFixed(2);
-
-            // Gráfico de Equity
-            const ctx = document.getElementById('equityChart').getContext('2d');
-            if(window.eqChart) window.eqChart.destroy();
-            let cum = 0;
-            const data = trades.sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).map(t=> { cum += t.ganancia; return cum; });
-            window.eqChart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: data.map((_,i)=>i+1), datasets: [{ label: 'Capital', data: data, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 }] },
-                options: { plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { color: '#2d3748' } } } }
-            });
+            const br = trades.reduce((a,b)=>a+b.gb, 0);
+            const inv = assets.reduce((a,b)=>a+b.costo, 0);
+            const ret = assets.reduce((a,b)=>a+b.retiro, 0);
+            const wr = trades.length ? (trades.filter(t=>t.gn>0).length/trades.length*100).toFixed(0) : 0;
+            const s7 = new Date(); s7.setDate(s7.getDate()-7);
+            const t7 = trades.filter(t => new Date(t.fecha) >= s7);
+            const sc = t7.length ? (t7.reduce((a,b)=>a+b.sc,0)/t7.length).toFixed(1) : "0.0";
+            document.getElementById('kpiBruto').innerText = `$${br.toLocaleString()}`;
+            document.getElementById('kpiRetiros').innerText = `$${ret.toLocaleString()} MXN`;
+            document.getElementById('kpiInv').innerText = `$${inv.toLocaleString()} MXN`;
+            document.getElementById('kpiWR').innerText = `${wr}%`;
+            document.getElementById('kpiDisc').innerText = `${sc} ⭐`;
         }
 
         function renderCalendar() {
-            const daily = trades.reduce((acc, t) => {
-                acc[t.fecha] = (acc[t.fecha] || 0) + t.ganancia;
-                return acc;
-            }, {});
-
-            const events = Object.keys(daily).map(date => ({
-                title: `$${daily[date].toLocaleString()}`,
-                start: date,
-                className: daily[date] >= 0 ? 'pnl-pos' : 'pnl-neg'
-            }));
-
-            const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-                initialView: 'dayGridMonth',
-                locale: 'es',
-                firstDay: 1,
-                events: events,
-                height: 'auto',
-                eventClick: (info) => mostrarReview(info.event.startStr),
-                eventContent: (arg) => ({ html: `<div class="${arg.event.classNames[0]} p-1 text-xs rounded">${arg.event.title}</div>` })
+            const daily = trades.reduce((acc, t) => { acc[t.fecha] = (acc[t.fecha] || 0) + t.gn; return acc; }, {});
+            const events = Object.keys(daily).map(d => ({ title: `$${daily[d].toFixed(0)}`, start: d, className: daily[d] >= 0 ? 'pnl-pos' : 'pnl-neg' }));
+            const cal = new FullCalendar.Calendar(document.getElementById('calendar'), {
+                initialView: 'dayGridMonth', locale: 'es', events: events, height: 'auto',
+                eventClick: (info) => review(info.event.startStr),
+                datesSet: (info) => {
+                    const mKey = info.view.currentStart.toISOString().substring(0,7);
+                    const mTotal = trades.filter(t => t.fecha.startsWith(mKey)).reduce((a,b)=>a+b.gn, 0);
+                    document.getElementById('pnlMensualHeader').innerText = `MONTHLY: $${mTotal.toFixed(2)} USD`;
+                    setTimeout(weeklySums, 200);
+                }
             });
-            calendar.render();
+            cal.render();
         }
 
-        function mostrarReview(fechaStr) {
-            const diaTrades = trades.filter(t => t.fecha === fechaStr);
-            document.getElementById('revFecha').innerText = `Bitácora: ${fechaStr}`;
-            const cont = document.getElementById('revContenido');
-            cont.innerHTML = "";
-
-            diaTrades.forEach(t => {
-                const checksHtml = t.checks?.map(c => `<span class="bg-blue-900/30 text-blue-400 px-2 py-1 rounded text-[10px] border border-blue-800">✓ ${c}</span>`).join(' ') || "";
-                cont.innerHTML += `
-                    <div class="lg:col-span-1 space-y-6 bg-gray-900/40 p-6 rounded-2xl border border-gray-800">
-                        <div>
-                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Resultado Sesión</p>
-                            <div class="text-4xl font-black ${t.ganancia >= 0 ? 'text-green-400' : 'text-red-400'}">$${t.ganancia.toLocaleString()}</div>
-                            <div class="text-blue-500 font-mono text-lg">${t.puntos} Puntos NQ</div>
-                        </div>
-                        <div>
-                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Checklist de Estrategia</p>
-                            <div class="flex flex-wrap gap-2">${checksHtml}</div>
-                        </div>
-                        <div>
-                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Psicología & Notas</p>
-                            <div class="text-gray-300 italic text-sm leading-relaxed bg-[#0b0f1a] p-4 rounded-xl border-l-4 border-blue-600">"${t.notas || 'Sin comentarios registrados'}"</div>
-                        </div>
-                        <button onclick="borrarTrade(${t.id})" class="w-full py-2 text-xs text-red-900 hover:text-red-500 transition font-bold uppercase tracking-widest">Eliminar Registro</button>
-                    </div>
-                    <div class="lg:col-span-2 space-y-2">
-                        <p class="text-[10px] text-gray-500 uppercase font-bold">Gráfica del Trade (NinjaTrader)</p>
-                        ${t.imagen ? `<img src="${t.imagen}" class="w-full rounded-2xl border border-gray-800 shadow-2xl">` : `<div class="aspect-video bg-gray-900 flex items-center justify-center text-gray-700 italic rounded-2xl border border-gray-800">No se adjuntó imagen</div>`}
-                    </div>
-                `;
+        function weeklySums() {
+            document.querySelectorAll('.weekly-sum').forEach(e => e.remove());
+            document.querySelectorAll('.fc-daygrid-body tr').forEach(row => {
+                let sum = 0; row.querySelectorAll('.fc-event-title').forEach(el => sum += parseFloat(el.innerText.replace('$','')));
+                const cell = row.querySelector('.fc-daygrid-day:last-child');
+                if(cell) { const d = document.createElement('div'); d.className = 'weekly-sum'; d.innerText = `W: $${sum.toFixed(0)}`; d.style.color = sum>=0?'#34d399':'#f43f5e'; cell.appendChild(d); }
             });
+        }
+
+        function renderCharts() {
+            const sorted = [...trades].sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+            const ctxE = document.getElementById('equityChart').getContext('2d');
+            if(window.chE) window.chE.destroy();
+            let c = 0; const dataE = sorted.map(t=>c+=t.gn);
+            window.chE = new Chart(ctxE, { type:'line', data:{ labels:sorted.map(t=>t.fecha), datasets:[{data:dataE, borderColor:'#fff', backgroundColor:'rgba(255,255,255,0.05)', fill:true, tension:0.3, pointRadius:1}]}, options:{plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#64748b', font:{size:8}}}}} });
+            const ctxM = document.getElementById('monthlyChart').getContext('2d');
+            if(window.chM) window.chM.destroy();
+            const ms = {}; trades.forEach(t => { const m = t.fecha.substring(0,7); ms[m] = (ms[m]||0)+t.gn; });
+            window.chM = new Chart(ctxM, { type:'bar', data:{ labels:Object.keys(ms), datasets:[{data:Object.values(ms), backgroundColor:Object.values(ms).map(v=>v>=0?'#10b981':'#f43f5e')}]}, options:{plugins:{legend:{display:false}}, scales:{y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#64748b'}}, x:{ticks:{color:'#64748b', font:{size:9}}}}} });
+            const ctxD = document.getElementById('ddChart').getContext('2d');
+            if(window.chD) window.chD.destroy();
+            let peak = 0; const dataD = dataE.map(v => { if(v > peak) peak = v; return v - peak; });
+            window.chD = new Chart(ctxD, { type:'line', data:{ labels:sorted.map(t=>t.fecha), datasets:[{data:dataD, borderColor:'#f43f5e', backgroundColor:'rgba(244,63,94,0.1)', fill:true, pointRadius:0}]}, options:{plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{ticks:{color:'#64748b'}}}} });
+        }
+
+        function renderBusiness() {
+            const cont = document.getElementById('analyticsCuentas'); cont.innerHTML = "";
+            if(!assets.length) return cont.innerHTML = "<p class='text-[9px] text-slate-600 text-center italic'>No accounts.</p>";
+            const totalInv = assets.reduce((a,b)=>a+b.costo, 0);
+            const totalRet = assets.reduce((a,b)=>a+b.retiro, 0);
+            document.getElementById('bizAppRate').innerText = `${((assets.filter(a => a.status !== 'evaluacion' && a.status !== 'quemada').length / assets.length) * 100).toFixed(0)}%`;
+            document.getElementById('bizPayoutRate').innerText = `${((assets.filter(a => a.status === 'retiro').length / assets.length) * 100).toFixed(0)}%`;
+            document.getElementById('bizROI').innerText = `${totalInv>0?(((totalRet-totalInv)/totalInv)*100).toFixed(0):0}%`;
+            const comps = [...new Set(assets.map(a => a.empresa))];
+            comps.forEach(e => {
+                const list = assets.filter(a => a.empresa === e);
+                const pnl = trades.filter(t => list.find(l => l.id == t.cid)).reduce((a,b)=>a+b.gn, 0);
+                let div = `<div class="bg-slate-950/40 p-3 rounded-xl border border-slate-800 mb-2"><div class="flex justify-between font-bold mb-1 uppercase text-[11px] text-white"><span>${e}</span><span class="${pnl>=0?'text-emerald-500':'text-rose-500'}">$${pnl.toFixed(0)}</span></div><div class="flex flex-wrap gap-1 mt-2">`;
+                list.forEach(acc => {
+                    const c = acc.status === 'retiro'?'bg-emerald-500':acc.status === 'aprobada'?'bg-blue-500':acc.status === 'quemada'?'bg-rose-500':'bg-slate-700';
+                    div += `<span onclick="abrirModalFondeo('${acc.id}')" class="status-badge ${c} text-white">#${acc.sec}</span>`;
+                });
+                cont.innerHTML += div + `</div></div>`;
+            });
+        }
+
+        function review(f) {
+            const trs = trades.filter(t => t.fecha === f);
+            const cont = document.getElementById('revContenido');
+            cont.innerHTML = trs.map(t => {
+                const a = assets.find(x => x.id == t.cid);
+                const mxn = t.gn < 0 && a ? ((Math.abs(t.gn)/a.drawdown)*a.costo).toFixed(0) : (t.gn * TC).toFixed(0);
+                return `
+                <div class="grid lg:grid-cols-3 gap-10 items-start border-b border-slate-800 pb-20">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold uppercase tracking-widest text-xs">${a ? a.empresa+' #'+a.sec : ''}</span><button onclick="abrirModalRegistro(${t.id})" class="bg-slate-700 text-white px-4 py-1 rounded-full text-[10px]">Edit</button></div>
+                        <div class="text-6xl font-extralight ${t.gn>=0?'text-emerald-400':'text-rose-500'} font-mono tracking-tighter">$${t.gn.toFixed(2)}</div>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${t.gn<0?'Capital Impact:':'Profit Value:'} <span class="text-white">$${mxn} MXN</span></p>
+                        <div class="text-2xl">${"⭐".repeat(t.sc)}</div>
+                        <div class="text-slate-400 italic text-sm border-l-2 border-slate-700 pl-4 py-2">"${t.notas || 'No notes added.'}"</div>
+                        <button onclick="borrar(${t.id})" class="text-[9px] text-rose-900 uppercase font-bold hover:text-rose-500 transition">Delete Permanently</button>
+                    </div>
+                    <div class="lg:col-span-2"><img src="${t.img}" class="w-full rounded-[2rem] border border-slate-800 shadow-2xl"></div>
+                </div>`;
+            }).join('');
             abrirModal('modalReview');
         }
 
-        function borrarTrade(id) {
-            if(confirm("¿Seguro que quieres borrar este trade? Esta acción no se puede deshacer.")) {
-                trades = trades.filter(t => t.id !== id);
-                actualizarTodo();
-                cerrarModal('modalReview');
-            }
-        }
-
-        function renderFondeo() {
-            const div = document.getElementById('listaCuentas');
-            div.innerHTML = "";
-            let inversionTotal = 0;
-            fondeo.forEach(f => {
-                inversionTotal += f.costo;
-                div.innerHTML += `
-                    <div class="flex justify-between items-center group">
-                        <span class="text-gray-300">${f.empresa} <span class="text-[10px] text-gray-500 font-mono">${f.tamano}</span></span>
-                        <span class="text-red-400 font-mono text-xs">-$${f.costo}</span>
-                    </div>
-                `;
-            });
-            if(fondeo.length > 0) {
-                div.innerHTML += `<div class="border-t border-gray-700 pt-2 flex justify-between font-bold text-xs"><span class="text-gray-500">INVERSIÓN TOTAL</span><span class="text-red-500">$${inversionTotal}</span></div>`;
-            } else {
-                div.innerHTML = "<p class='text-gray-600 italic text-xs'>No hay cuentas registradas</p>";
-            }
-        }
-
-        function exportarDatos() {
-            const data = { trades, fondeo };
-            const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `NQ_Journal_Backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-        }
-
-        function importarDatos(e) {
-            const reader = new FileReader();
-            reader.onload = (f) => {
-                const data = JSON.parse(f.target.result);
-                trades = data.trades || [];
-                fondeo = data.fondeo || [];
-                actualizarTodo();
-                alert("Backup cargado con éxito");
-            };
-            reader.readAsText(e.target.files[0]);
-        }
-
-        actualizarTodo();
+        function borrar(id) { if(confirm("Delete?")) { trades = trades.filter(x=>x.id!=id); actualizar(); cerrarModal('modalReview'); } }
+        function exportarDatos() { const b = new Blob([JSON.stringify({trades, assets})], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `SilentEdge_Master.json`; a.click(); }
+        actualizar();
     </script>
 </body>
 </html>
