@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE SILENT EDGE | Cloud Sync Ledger</title>
+    <title>THE SILENT EDGE | Elite Business Ledger</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
@@ -23,9 +23,7 @@
         input, select, textarea { background: #0f172a !important; color: white !important; border: 1px solid #334155 !important; border-radius: 10px; padding: 10px; width: 100%; font-size: 0.85rem; }
         .btn-zen { background: #f8fafc; color: #0f172a; font-weight: 600; transition: all 0.3s ease; cursor: pointer; border: none; border-radius: 99px; }
         .btn-zen:hover { opacity: 0.8; transform: translateY(-1px); }
-        .btn-cloud { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
-        .btn-cloud:hover { background: #334155; color: white; }
-        .status-badge { font-size: 8px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+        .status-badge { font-size: 8px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: bold; cursor: pointer; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -37,12 +35,12 @@
                 <div class="w-14 h-14 glass flex items-center justify-center border-slate-700 shadow-2xl tracking-tighter italic font-extralight text-xl">SE</div>
                 <div>
                     <h1 class="text-3xl font-extralight tracking-[0.5em] text-white uppercase italic">The Silent Edge <span class="font-bold text-slate-400 not-italic">Trading</span></h1>
-                    <p class="text-slate-500 text-[9px] uppercase tracking-[0.3em] font-bold">Cloud-Linked Business Protocol • USD-MXN @ 18.15</p>
+                    <p class="text-slate-500 text-[9px] uppercase tracking-[0.3em] font-bold">Zen Business Protocol • USD-MXN @ 18.15</p>
                 </div>
             </div>
-            <div class="flex gap-3">
-                <button onclick="sincronizarGoogle()" class="btn-cloud px-6 py-2 rounded-full text-[10px] uppercase font-bold transition">Sync to Cloud ☁️</button>
-                <button onclick="exportarDatos()" class="px-6 py-2 rounded-full border border-slate-700 text-[10px] uppercase font-bold text-slate-400">Backup JSON</button>
+            <div class="flex gap-4">
+                <button onclick="sincronizarGoogle()" class="px-6 py-2 rounded-full border border-slate-700 text-[10px] uppercase font-bold text-slate-400 hover:bg-slate-800 transition">Sync to Cloud ☁️</button>
+                <button onclick="exportarDatos()" class="px-6 py-2 rounded-full border border-slate-700 text-[10px] uppercase font-bold text-slate-400">Export Backup</button>
                 <button onclick="abrirModalRegistro()" class="btn-zen px-10 py-3 text-[10px] uppercase tracking-widest shadow-xl">Log Session</button>
             </div>
         </header>
@@ -58,7 +56,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
             <div class="lg:col-span-3 glass p-6 shadow-2xl relative">
                 <div class="flex justify-between items-center mb-6 px-4 border-b border-slate-800 pb-4">
-                    <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest italic text-sm">Global Session Ledger</h3>
+                    <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Global Session Ledger</h3>
                     <div id="pnlMensualHeader" class="text-sm font-mono text-white font-bold tracking-tighter italic">MONTHLY: $0.00 USD</div>
                 </div>
                 <div id="calendar"></div>
@@ -67,17 +65,25 @@
             <div class="space-y-6">
                 <div class="metric-card border-slate-700 bg-slate-900/40">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Business Analysis</h3>
-                        <button onclick="abrirModalFondeo()" class="text-xs text-white bg-slate-700 px-3 py-1 rounded-full font-bold">+</button>
+                        <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Account Analytics</h3>
+                        <button onclick="abrirModalFondeo()" class="text-xs text-white bg-slate-700 px-3 py-1 rounded-full font-bold hover:bg-white hover:text-black transition">+</button>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 mb-6 text-center border-b border-slate-800 pb-4 text-xs">
-                        <div><p class="text-[7px] text-slate-500 uppercase italic">Aprobación</p><p id="bizAppRate" class="font-bold">0%</p></div>
-                        <div><p class="text-[7px] text-slate-500 uppercase italic">Cobro</p><p id="bizPayoutRate" class="font-bold">0%</p></div>
-                        <div><p class="text-[7px] text-slate-500 uppercase italic">ROI</p><p id="bizROI" class="font-bold text-emerald-400">0%</p></div>
+                    <div class="grid grid-cols-3 gap-2 mb-6 text-center border-b border-slate-800 pb-4">
+                        <div><p class="text-[7px] text-slate-500 uppercase italic">Aprobación</p><p id="bizAppRate" class="text-xs font-bold text-white">0%</p></div>
+                        <div><p class="text-[7px] text-slate-500 uppercase italic">Cobro (Pay)</p><p id="bizPayoutRate" class="text-xs font-bold text-white">0%</p></div>
+                        <div><p class="text-[7px] text-slate-500 uppercase italic">ROI Real</p><p id="bizROI" class="text-xs font-bold text-emerald-400">0%</p></div>
                     </div>
                     <div id="analyticsCuentas" class="space-y-3"></div>
+                    
+                    <div id="strategyAnalysis" class="mt-8 border-t border-slate-800 pt-6">
+                        <h3 class="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-4">Edge by Setup</h3>
+                        <div id="strategyList" class="space-y-2"></div>
+                    </div>
                 </div>
-                <div class="metric-card"><canvas id="equityChart"></canvas></div>
+                <div class="metric-card">
+                    <p class="text-[9px] text-slate-500 uppercase font-bold mb-4 tracking-widest text-center italic">Equity Growth</p>
+                    <canvas id="equityChart"></canvas>
+                </div>
             </div>
         </div>
 
@@ -88,19 +94,30 @@
     </div>
 
     <div id="modalTrade" class="hidden modal-container">
-        <div class="glass modal-content p-10 my-10 border-slate-700">
-            <h2 id="modalTitle" class="text-xl font-extralight tracking-[0.3em] uppercase mb-10">Silent Execution</h2>
+        <div class="glass modal-content p-10 my-10 shadow-2xl border-slate-700">
+            <h2 id="modalTitle" class="text-xl font-extralight tracking-[0.3em] uppercase mb-10 text-white">Silent Execution</h2>
             <input type="hidden" id="editId">
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="space-y-5">
-                    <select id="tCuentaSelect"></select>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="date" id="tFecha">
-                        <input type="number" id="tGanancia" step="0.01" placeholder="P&L USD">
+                        <div><label class="text-[9px] uppercase text-slate-500 font-bold mb-1">Account</label><select id="tCuentaSelect"></select></div>
+                        <div><label class="text-[9px] uppercase text-slate-500 font-bold mb-1">Setup</label>
+                            <select id="tSetup">
+                                <option value="J1">J1</option>
+                                <option value="J2">J2</option>
+                                <option value="J3 giro">J3 giro</option>
+                                <option value="J3 rompimiento">J3 rompimiento</option>
+                                <option value="J12">J12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="text-[9px] uppercase text-slate-500">Date</label><input type="date" id="tFecha"></div>
+                        <div><label class="text-[9px] uppercase text-slate-500">P&L USD</label><input type="number" id="tGanancia" step="0.01"></div>
                     </div>
                     <input type="number" id="tComision" step="0.01" placeholder="Comissions USD">
                     <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 space-y-3">
-                        <p class="text-[9px] uppercase text-slate-500 font-bold italic">Checklist</p>
+                        <p class="text-[9px] uppercase text-slate-500 font-bold italic">Zen Compliance Checklist</p>
                         <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="C"> Contexto Válido</label>
                         <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="G"> Confluencia GM</label>
                         <label class="flex items-center gap-4 text-xs"><input type="checkbox" class="tCheck w-5 h-5" value="T"> Timing Correcto</label>
@@ -109,35 +126,38 @@
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <div class="w-full h-64 border-2 border-dashed border-slate-700 rounded-3xl flex items-center justify-center bg-slate-900/30 relative overflow-hidden" id="dropZone">
-                        <img id="preview" class="hidden absolute inset-0 w-full h-full object-contain p-2">
-                        <p class="text-slate-500 text-xs font-bold uppercase">Paste Image (Cmd+V)</p>
+                    <div class="w-full h-64 border-2 border-dashed border-slate-700 rounded-3xl flex items-center justify-center bg-slate-900/30 relative overflow-hidden cursor-pointer" id="dropZone">
+                        <img id="preview" class="hidden absolute inset-0 w-full h-full object-contain">
+                        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Paste Image</p>
                         <input type="file" id="tImagen" class="hidden">
                     </div>
-                    <textarea id="tNotas" rows="4" placeholder="Zen Journaling..."></textarea>
+                    <textarea id="tNotas" rows="4" placeholder="Psychological journaling..."></textarea>
                 </div>
             </div>
-            <div class="flex gap-4 mt-10"><button onclick="guardarTrade()" class="btn-zen flex-1 py-4 uppercase text-[10px]">Commit Data</button><button onclick="cerrarModal('modalTrade')" class="px-10 border border-slate-700 text-slate-500 rounded-full uppercase text-[10px]">Discard</button></div>
+            <div class="flex gap-4 mt-10">
+                <button onclick="guardarTrade()" class="btn-zen flex-1 py-4 uppercase text-[10px] tracking-widest">Commit Data</button>
+                <button onclick="cerrarModal('modalTrade')" class="px-10 border border-slate-700 text-slate-500 rounded-full uppercase text-[10px]">Discard</button>
+            </div>
         </div>
     </div>
 
     <div id="modalFondeo" class="hidden modal-container">
         <div class="metric-card w-full max-w-md bg-slate-900 border-slate-700 p-8 shadow-2xl my-auto">
-            <h2 id="assetModalTitle" class="text-sm font-bold uppercase tracking-widest mb-6">Asset Management</h2>
+            <h2 id="assetModalTitle" class="text-sm font-bold uppercase tracking-widest mb-6 text-slate-400">Asset Management</h2>
             <input type="hidden" id="editAssetId">
             <div class="space-y-4">
-                <input type="text" id="fEmpresa" placeholder="Company">
-                <div class="grid grid-cols-2 gap-4"><input type="number" id="fCosto" placeholder="Cost MXN"><input type="number" id="fDrawdown" placeholder="DD USD"></div>
+                <input type="text" id="fEmpresa" placeholder="Company Name">
+                <div class="grid grid-cols-2 gap-4"><input type="number" id="fCosto" placeholder="Cost MXN"><input type="number" id="fDrawdown" placeholder="Max DD USD"></div>
                 <input type="number" id="fStop" placeholder="Avg SL USD">
                 <select id="fStatus"><option value="evaluacion">Evaluación</option><option value="aprobada">Aprobada</option><option value="quemada">Quemada</option><option value="retiro">Con Retiro</option></select>
-                <input type="number" id="fRetiro" placeholder="Payout MXN">
-                <div class="flex gap-3 pt-4"><button onclick="guardarFondeo()" class="flex-1 btn-zen py-3 text-[10px] uppercase">Save</button><button onclick="eliminarFondeo()" id="btnEliminarAsset" class="flex-1 border border-rose-900 text-rose-500 rounded-full text-[10px] hidden">Delete</button><button onclick="cerrarModal('modalFondeo')" class="flex-1 border border-slate-700 rounded-full py-3 text-slate-500 uppercase text-[10px]">Cancel</button></div>
+                <input type="number" id="fRetiro" placeholder="Total Payout MXN">
+                <div class="flex gap-3 pt-4"><button onclick="guardarFondeo()" class="flex-1 btn-zen py-3 uppercase text-[10px]">Save</button><button onclick="eliminarFondeo()" id="btnEliminarAsset" class="flex-1 border border-rose-900 text-rose-500 rounded-full py-3 uppercase text-[10px] hidden">Delete</button><button onclick="cerrarModal('modalFondeo')" class="flex-1 border border-slate-700 rounded-full py-3 text-slate-500 uppercase text-[10px]">Cancel</button></div>
             </div>
         </div>
     </div>
 
     <div id="modalReview" class="hidden modal-container">
-        <div class="glass modal-content p-10 my-10 border-slate-700 shadow-2xl">
+        <div class="glass modal-content p-10 my-10 shadow-2xl border-slate-700">
             <div id="revContenido" class="flex flex-col gap-20"></div>
             <button onclick="cerrarModal('modalReview')" class="mt-20 w-full py-5 bg-slate-800 rounded-3xl text-[10px] font-bold tracking-widest uppercase text-slate-400 hover:text-white transition">Return to Ledger</button>
         </div>
@@ -145,50 +165,30 @@
 
     <script>
         const TC = 18.15;
-        // REEMPLAZA ESTO CON LA URL DE TU GOOGLE APPS SCRIPT
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_gKWIG2ovJDxXCP5s4oBnca8JThVCXCYdQfOufpSJgi_w_Ha8zEkg4vTc-jqxB3jf/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_gKWIG2ovJDxXCP5s4oBnca8JThVCXCYdQfOufpSJgi_w_Ha8zEkg4vTc-jqxB3jf/exec'; // Pegar tu URL de Apps Script aquí
 
         let trades = JSON.parse(localStorage.getItem('se_f_tr_final')) || [];
         let assets = JSON.parse(localStorage.getItem('se_f_as_final')) || [];
         let img64 = "";
 
-        // LÓGICA DE SINCRONIZACIÓN GOOGLE
+        // SYNC GOOGLE
         async function sincronizarGoogle() {
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'TU_URL_DE_GOOGLE_AQUI') {
-                return alert("Por favor, configura primero la URL de tu Google Apps Script en el código.");
-            }
-            
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "Sincronizando...";
-            btn.disabled = true;
-
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('TU_URL')) return alert("Configura la URL de Google primero.");
+            const btn = event.target; btn.innerText = "Sincronizando...";
             try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Necesario para evitar bloqueos CORS en local
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ trades, assets })
-                });
-                alert("¡Datos enviados a tu Google Sheet!");
-            } catch (error) {
-                console.error(error);
-                alert("Error al conectar con Google. Revisa la consola.");
-            } finally {
-                btn.innerText = originalText;
-                btn.disabled = false;
-            }
+                await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ trades, assets }) });
+                alert("Sincronización Exitosa con Google Sheet");
+            } catch (e) { alert("Error al sincronizar"); }
+            finally { btn.innerText = "Sync to Cloud ☁️"; }
         }
 
-        // --- EL RESTO DE LA LÓGICA (Misma arquitectura Zen que configuramos) ---
         const dz = document.getElementById('dropZone');
         dz.onclick = () => document.getElementById('tImagen').click();
         document.getElementById('tImagen').onchange = (e) => rImg(e.target.files[0]);
         document.onpaste = (e) => { const i = (e.clipboardData || e.originalEvent.clipboardData).items[0]; if (i?.type.includes("image")) rImg(i.getAsFile()); };
         function rImg(f) { const r = new FileReader(); r.onload = (e) => { img64 = e.target.result; document.getElementById('preview').src = img64; document.getElementById('preview').classList.remove('hidden'); }; r.readAsDataURL(f); }
 
-        function abrirModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).scrollTo(0,0); }
+        function abrirModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.scrollTo(0,0); }
         function cerrarModal(id) { document.getElementById(id).classList.add('hidden'); }
 
         function abrirModalFondeo(id = null) {
@@ -207,8 +207,7 @@
                 document.getElementById('editAssetId').value = ""; document.getElementById('fEmpresa').value = ""; 
                 document.getElementById('fCosto').value = ""; document.getElementById('fDrawdown').value = "";
                 document.getElementById('fStop').value = ""; document.getElementById('fStatus').value = "evaluacion";
-                document.getElementById('fRetiro').value = 0;
-                btnEl.classList.add('hidden');
+                document.getElementById('fRetiro').value = 0; btnEl.classList.add('hidden');
             }
             abrirModal('modalFondeo');
         }
@@ -223,8 +222,8 @@
         }
 
         function eliminarFondeo() {
-            const aid = document.getElementById('editAssetId').value;
-            if(confirm("¿Eliminar esta cuenta y sus trades asociados?")) {
+            if(confirm("Delete asset and linked trades?")) {
+                const aid = document.getElementById('editAssetId').value;
                 trades = trades.filter(t => t.cid != aid);
                 assets = assets.filter(a => a.id != aid);
                 actualizar(); cerrarModal('modalFondeo');
@@ -232,15 +231,15 @@
         }
 
         function abrirModalRegistro(id = null) {
-            if(!assets.length) return alert("Add an asset first");
+            if(!assets.length) return alert("Add an account first");
             document.getElementById('editId').value = id || "";
             document.getElementById('tCuentaSelect').innerHTML = assets.map(a => `<option value="${a.id}">${a.empresa} #${a.sec}</option>`).join('');
             if(id) {
                 const t = trades.find(x => x.id == id);
                 document.getElementById('tFecha').value = t.fecha; document.getElementById('tGanancia').value = t.gb;
                 document.getElementById('tComision').value = t.com; document.getElementById('tNotas').value = t.notas;
-                document.getElementById('tCuentaSelect').value = t.cid; img64 = t.img;
-                if(t.img) { document.getElementById('preview').src = t.img; document.getElementById('preview').classList.remove('hidden'); }
+                document.getElementById('tCuentaSelect').value = t.cid; document.getElementById('tSetup').value = t.st || 'J1';
+                img64 = t.img; if(t.img) { document.getElementById('preview').src = t.img; document.getElementById('preview').classList.remove('hidden'); }
             } else {
                 document.getElementById('tGanancia').value = ""; document.getElementById('tComision').value = "";
                 document.getElementById('tNotas').value = ""; document.getElementById('preview').classList.add('hidden');
@@ -254,15 +253,16 @@
             const sc = Array.from(document.querySelectorAll('.tCheck:checked')).length;
             const gb = parseFloat(document.getElementById('tGanancia').value)||0;
             const cm = parseFloat(document.getElementById('tComision').value)||0;
-            const t = { id: eid ? parseInt(eid) : Date.now(), cid: document.getElementById('tCuentaSelect').value, fecha: document.getElementById('tFecha').value, gb, com: cm, gn: gb - cm, sc, notas: document.getElementById('tNotas').value, img: img64 };
-            if(!t.fecha) return; if(eid) trades = trades.map(x => x.id == eid ? t : x); else trades.push(t);
+            const t = { id: eid ? parseInt(eid) : Date.now(), cid: document.getElementById('tCuentaSelect').value, st: document.getElementById('tSetup').value, fecha: document.getElementById('tFecha').value, gb, com: cm, gn: gb - cm, sc, notas: document.getElementById('tNotas').value, img: img64 };
+            if(!t.fecha) return alert("Select a date");
+            if(eid) trades = trades.map(x => x.id == eid ? t : x); else trades.push(t);
             actualizar(); cerrarModal('modalTrade');
         }
 
         function actualizar() {
             localStorage.setItem('se_f_tr_final', JSON.stringify(trades));
             localStorage.setItem('se_f_as_final', JSON.stringify(assets));
-            renderStats(); renderCalendar(); renderCharts(); renderBusiness();
+            renderStats(); renderCalendar(); renderCharts(); renderBusiness(); renderStrategies();
         }
 
         function renderStats() {
@@ -272,25 +272,25 @@
             const wr = trades.length ? (trades.filter(t=>t.gn>0).length/trades.length*100).toFixed(0) : 0;
             const s7 = new Date(); s7.setDate(s7.getDate()-7);
             const t7 = trades.filter(t => new Date(t.fecha) >= s7);
-            const sc = t7.length ? (t7.reduce((a,b)=>a+b.sc,0)/t7.length).toFixed(1) : "0.0";
+            const avg = t7.length ? (t7.reduce((a,b)=>a+b.sc,0)/t7.length).toFixed(1) : "0.0";
             document.getElementById('kpiBruto').innerText = `$${br.toLocaleString()}`;
             document.getElementById('kpiRetiros').innerText = `$${ret.toLocaleString()} MXN`;
             document.getElementById('kpiInv').innerText = `$${inv.toLocaleString()} MXN`;
             document.getElementById('kpiWR').innerText = `${wr}%`;
-            document.getElementById('kpiDisc').innerText = `${sc} ⭐`;
+            document.getElementById('kpiDisc').innerText = `${avg} ⭐`;
         }
 
         function renderCalendar() {
             const daily = trades.reduce((acc, t) => { acc[t.fecha] = (acc[t.fecha] || 0) + t.gn; return acc; }, {});
-            const events = Object.keys(daily).map(d => ({ title: `$${daily[d].toFixed(0)}`, start: d, className: daily[d] >= 0 ? 'pnl-pos' : 'pnl-neg' }));
+            const evs = Object.keys(daily).map(d => ({ title: `$${daily[d].toFixed(0)}`, start: d, className: daily[d] >= 0 ? 'pnl-pos' : 'pnl-neg' }));
             const cal = new FullCalendar.Calendar(document.getElementById('calendar'), {
-                initialView: 'dayGridMonth', locale: 'es', events: events, height: 'auto',
+                initialView: 'dayGridMonth', locale: 'es', events: evs, height: 'auto',
                 eventClick: (info) => review(info.event.startStr),
                 datesSet: (info) => {
                     const mKey = info.view.currentStart.toISOString().substring(0,7);
                     const mTotal = trades.filter(t => t.fecha.startsWith(mKey)).reduce((a,b)=>a+b.gn, 0);
                     document.getElementById('pnlMensualHeader').innerText = `MONTHLY: $${mTotal.toFixed(2)} USD`;
-                    setTimeout(weeklySums, 200);
+                    setTimeout(weeklySums, 150);
                 }
             });
             cal.render();
@@ -324,11 +324,11 @@
         function renderBusiness() {
             const cont = document.getElementById('analyticsCuentas'); cont.innerHTML = "";
             if(!assets.length) return cont.innerHTML = "<p class='text-[9px] text-slate-600 text-center italic'>No accounts.</p>";
-            const totalInv = assets.reduce((a,b)=>a+b.costo, 0);
-            const totalRet = assets.reduce((a,b)=>a+b.retiro, 0);
+            const inv = assets.reduce((a,b)=>a+b.costo, 0);
+            const ret = assets.reduce((a,b)=>a+b.retiro, 0);
             document.getElementById('bizAppRate').innerText = `${((assets.filter(a => a.status !== 'evaluacion' && a.status !== 'quemada').length / assets.length) * 100).toFixed(0)}%`;
             document.getElementById('bizPayoutRate').innerText = `${((assets.filter(a => a.status === 'retiro').length / assets.length) * 100).toFixed(0)}%`;
-            document.getElementById('bizROI').innerText = `${totalInv>0?(((totalRet-totalInv)/totalInv)*100).toFixed(0):0}%`;
+            document.getElementById('bizROI').innerText = `${inv>0?(((ret-inv)/inv)*100).toFixed(0):0}%`;
             const comps = [...new Set(assets.map(a => a.empresa))];
             comps.forEach(e => {
                 const list = assets.filter(a => a.empresa === e);
@@ -342,20 +342,33 @@
             });
         }
 
+        function renderStrategies() {
+            const list = document.getElementById('strategyList'); list.innerHTML = "";
+            const stats = {};
+            trades.forEach(t => {
+                const s = t.st || 'J1';
+                if(!stats[s]) stats[s] = { p: 0, w: 0, t: 0 };
+                stats[s].p += t.gn; stats[s].t += 1; if(t.gn > 0) stats[s].w += 1;
+            });
+            for(let s in stats) {
+                const st = stats[s]; const wr = ((st.w/st.t)*100).toFixed(0);
+                list.innerHTML += `<div class="flex justify-between items-center text-[10px] bg-slate-900/50 p-2 rounded-lg border border-slate-800"><span class="text-slate-400 font-bold">${s}</span><span class="${st.p>=0?'text-emerald-400':'text-rose-400'} font-mono">$${st.p.toFixed(0)}</span><span class="text-slate-600">${wr}% WR</span></div>`;
+            }
+        }
+
         function review(f) {
             const trs = trades.filter(t => t.fecha === f);
             const cont = document.getElementById('revContenido');
             cont.innerHTML = trs.map(t => {
                 const a = assets.find(x => x.id == t.cid);
                 const mxn = t.gn < 0 && a ? ((Math.abs(t.gn)/a.drawdown)*a.costo).toFixed(0) : (t.gn * TC).toFixed(0);
-                return `
-                <div class="grid lg:grid-cols-3 gap-10 items-start border-b border-slate-800 pb-20">
+                return `<div class="grid lg:grid-cols-3 gap-10 border-b border-slate-800 pb-20 items-start">
                     <div class="space-y-6">
-                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold uppercase tracking-widest text-xs">${a ? a.empresa+' #'+a.sec : ''}</span><button onclick="abrirModalRegistro(${t.id})" class="bg-slate-700 text-white px-4 py-1 rounded-full text-[10px]">Edit</button></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500 uppercase font-bold text-xs">${a?a.empresa+' #'+a.sec:''} - ${t.st}</span><button onclick="abrirModalRegistro(${t.id})" class="bg-slate-700 text-white px-4 py-1 rounded-full text-[10px]">Edit</button></div>
                         <div class="text-6xl font-extralight ${t.gn>=0?'text-emerald-400':'text-rose-500'} font-mono tracking-tighter">$${t.gn.toFixed(2)}</div>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${t.gn<0?'Capital Impact:':'Profit Value:'} <span class="text-white">$${mxn} MXN</span></p>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">${t.gn<0?'Impact:':'Value:'} <span class="text-white">$${mxn} MXN</span></p>
                         <div class="text-2xl">${"⭐".repeat(t.sc)}</div>
-                        <div class="text-slate-400 italic text-sm border-l-2 border-slate-700 pl-4 py-2">"${t.notas || 'No notes added.'}"</div>
+                        <div class="text-slate-400 italic text-sm border-l-2 border-slate-700 pl-4 py-2">"${t.notas || 'No journaling notes.'}"</div>
                         <button onclick="borrar(${t.id})" class="text-[9px] text-rose-900 uppercase font-bold hover:text-rose-500 transition">Delete Permanently</button>
                     </div>
                     <div class="lg:col-span-2"><img src="${t.img}" class="w-full rounded-[2rem] border border-slate-800 shadow-2xl"></div>
@@ -365,7 +378,7 @@
         }
 
         function borrar(id) { if(confirm("Delete?")) { trades = trades.filter(x=>x.id!=id); actualizar(); cerrarModal('modalReview'); } }
-        function exportarDatos() { const b = new Blob([JSON.stringify({trades, assets})], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `SilentEdge_Master.json`; a.click(); }
+        function exportarDatos() { const b = new Blob([JSON.stringify({trades, assets})], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `SE_Master_2026.json`; a.click(); }
         actualizar();
     </script>
 </body>
